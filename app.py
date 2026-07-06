@@ -8,7 +8,8 @@ st.set_page_config(page_title="Ο Τάκης AI", page_icon="🤖")
 st.title("🤖 Τάκης - Web Edition")
 
 # Το API Key σου
-API_KEY = "AQ.Ab8RN6IWzf1ZUaUqq2mIZTvil9ii8SlDu-9ersvDZ3IJpNsMJA"
+# Διάβασμα του κλειδιού από τα Secrets του Streamlit
+API_KEY = st.secrets["API_KEY"]
 genai.configure(api_key=API_KEY)
 
 # Ρύθμιση μοντέλου
