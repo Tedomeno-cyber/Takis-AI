@@ -1,29 +1,22 @@
 import streamlit as st
-import asyncio
-from google import genai
-from google.genai import types
+import google.generativeai as genai
 import edge_tts
+import asyncio
 import os
 
-# Ρύθμιση σελίδας
 st.set_page_config(page_title="Ο Τάκης AI", page_icon="🤖")
-
 st.title("🤖 Τάκης - Web Edition")
 
 # Το API Key σου
 API_KEY = "AQ.Ab8RN6IWzf1ZUaUqq2mIZTvil9ii8SlDu-9ersvDZ3IJpNsMJA"
-client = genai.Client(api_key=API_KEY)
+genai.configure(api_key=API_KEY)
 
-# Chat setup
+# Ρύθμιση μοντέλου
+model = genai.GenerativeModel("gemini-1.5-flash")
+
 if "chat" not in st.session_state:
-    st.session_state.chat = client.chats.create(
-        model="gemini-2.5-flash",
-        config=types.GenerateContentConfig(
-            system_instruction="Είσαι ο Τάκης, ένας μάγκας AI βοηθός. Απαντάς σύντομα στα ελληνικά."
-        )
-    )
+    st.session_state.chat = model.start_chat(history=[])
 
-# Πεδίο κειμένου
 user_input = st.text_input("Γράψε στον Τάκη:")
 
 if user_input:
@@ -40,8 +33,4 @@ if user_input:
         asyncio.run(communicate.save(audio_file))
         
         # Αναπαραγωγή
-        audio_file = open(audio_file, "rb")
-        audio_bytes = audio_file.read()
-        st.audio(audio_bytes, format="audio/mp3", autoplay=True)
-
-st.info("Τώρα ο Τάκης τρέχει στον server και τον ανοίγεις από το κινητό!")
+        st.audio(audio_file, format="audio/mp3")
