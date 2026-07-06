@@ -8,8 +8,8 @@ import os
 st.set_page_config(page_title="Ο Τάκης AI", page_icon="🤖")
 st.title("🤖 Τάκης - Web Edition")
 
-# Το κλειδί μας απευθείας στον κώδικα
-API_KEY = "AQ.Ab8RN6IWzf1ZUaUqq2mIZTvil9ii8SlDu-9ersvDZ3IJpNsMJA"
+# Το κλειδί μας
+API_KEY = "AQ.Ab8RN6LHFJgvc-sJQwqVB6ZllKX8EL-HhRuH5xkp-rsNCFXi2g"
 
 # Ρύθμιση του Gemini
 genai.configure(api_key=API_KEY)
@@ -35,7 +35,9 @@ if user_input:
             communicate = edge_tts.Communicate(reply, "el-GR-NestorasNeural")
             asyncio.run(communicate.save(audio_file))
             
-            # Αναπαραγωγή
+            # Αναπαραγωγή ήχου
             st.audio(audio_file, format="audio/mp3")
+            
         except Exception as e:
-            st.error(f"Κάτι πήγε στραβά: {e}")
+            st.error(f"Κάτι πήγε στραβά με το κλειδί ή τη σύνδεση: {e}")
+            st.write("Σημείωση: Αν το σφάλμα επιμένει, ίσως το κλειδί χρειάζεται ανανέωση από το Google AI Studio.")
